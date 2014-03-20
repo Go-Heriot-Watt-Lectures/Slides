@@ -36,7 +36,7 @@ During the past couple of years the Go programming language has gained popularit
 
 * net/http
 
-- very fast http library within the standard library
+- very fast http imlementation within the standard library
 - regularly comes top of various benchmarks due to amount of throughput it can handle
 - Utilised by many companies including Google and Cloudflare.
 .link http://talks.golang.org/2013/oscon-dl.slide#36 Google
@@ -50,8 +50,16 @@ During the past couple of years the Go programming language has gained popularit
 
 - Go is starting to be used for more and more infrastructure projects such as Docker and the new linux distro CoreOS.
 - Docker use Go for most of the system including a new library to directly handle containerisation in Linux without the need for a container library like LXC.
-- CoreOS have written 2 very exciting programs that handle automatic launching of new instances around a variety cloud providers.
+- CoreOS have written 2 very exciting programs that handle automatic launching of new instances around a variety cloud providers. One is a distributed lock service and the other a init system built on top of systemd.
 
 * More http
 
+- Listen on a connection and hand off to a lightweight thread (goroutine)
 .play http-client-server.go
+
+* Concurrency
+
+- Go uses a different model to most other languages in that concurrency primitives are a first class data structure
+- Go has 2 main primitives: goroutines and channels
+- goroutines spawn lightweight "threads" which are multiplexed onto system threads by the runtime.
+- channels allow communication between goroutines for passing values and syncronisation
