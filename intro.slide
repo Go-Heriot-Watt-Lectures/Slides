@@ -1,5 +1,5 @@
 Introduction to the Go Programming Language
-30 Mar 2014
+27 Mar 2014
 
 Tom Townsend
 MEng Software Engineering, Heriot Watt University
@@ -12,57 +12,79 @@ During the past couple of years the Go programming language has gained popularit
 
 Designed by programmers of Unix and Plan9 fame.
 
+Currently at 1.2 with 1.3 due in a couple of months.
+
+.image gopher.png
+
+Image Credit : Renee French
+
 * My introduction
 
 - Started using Go through my 4th Year dissertation
 .link http://github.com/RadioactiveMouse/rgo Rgo
-- Using it now to do websocket server for Network Applications course
+- Using it to write a websocket server for Network Applications course
 .link https://github.com/Pollchat/pollchat Pollchat
-- Contributed to a popular open source project that wraps net/http
+- Contributed to a popular open source project that wraps net/http and is used in the websocket server
 .link https://github.com/martini-contrib/render Render
 
 * Go strengths
 
-- A statically typed compiled language with some of the flexibility of a dynamically typed interpreted language.
+- A statically typed, compiled language with some of the flexibility of a dynamically typed, interpreted language.
 - Garbage collected by runtime
 - Designed with concurrency at the heart of the language
 - Fast over typical server operations
+- Great set of bundled tools
 
 * Go weaknesses
 
-- Garbage collection isnt very mature although this is coming in 1.3.
+- Garbage collection isn't very mature although this is coming in 1.3.
 - Different way of handling inheritance requires a bit of thinking about (interfaces)
+- Relative infancy means some third party tools are not as mature
 
 * What about the code?
 
 .play hello.go
 
-* Interface Composition
+* Interfaces
 
 - interfaces can be created and are resolved at run time.
 - io.ReadCloser implements io.Reader in the io package
+- The idea is to eliminate explicit implementation declarations
 
 .code interface.go
+
+* Interface Composition
+
+- structures can be composed of multiple interfaces
+- this means code that has a io.ReadWriter is able to read/write by design
+
+.code interfaceComposition.go
+
+* Documentation
+
+- Go parses comments within the source file to extract documentation
+- Capitalised Names are exported (public)
+- go doc in standard tools outputs documentation
+- go fmt ensures code is in standard form
 
 * net/http
 
 - very fast http implementation within the standard library
 - regularly comes top of various benchmarks due to amount of throughput it can handle
-- Utilised by many companies including Google and Cloudflare.
+- Utilised by many high profile companies including Google and Cloudflare.
 .link http://talks.golang.org/2013/oscon-dl.slide#36 Google
 .link http://blog.cloudflare.com/what-weve-been-doing-with-go Cloudflare
 
-* Show me the code
+* Show me some code
 
 .play http.go
 
 * Why is this relevant to us?
 
-- Go is starting to be used for more and more infrastructure projects such as Docker and the new linux distro CoreOS.
-
+- Go is starting to be used for increasing amounts of infrastructure projects such as Docker, Youtube's Vitess and the new linux distro CoreOS.
+- Ease of development is quoted as much as compile time and execution speed.
 - Docker use Go for most of the system including a new library to directly handle containerisation in Linux without the need for a container library like LXC.
-
-- CoreOS have written 2 very exciting programs that handle automatic launching of new instances around a variety cloud providers. One is a distributed lock service and the other a init system built on top of systemd.
+- The CoreOS team have written 2 very exciting programs that handle automatic launching of new instances across a variety cloud providers. One is a distributed lock service and the other a init system built on top of systemd.
 
 * More http
 
@@ -72,6 +94,44 @@ Designed by programmers of Unix and Plan9 fame.
 * Concurrency
 
 - Go uses a different model to most other languages in that concurrency primitives are a first class data structure
-- Go has 2 main primitives: goroutines and channels
-- goroutines spawn lightweight "threads" which are multiplexed onto system threads by the runtime.
+- Go has 2 main concurrency primitives: goroutines and channels
+- goroutines spawn very lightweight "threads" which are multiplexed onto system threads by the runtime.
 - channels allow communication between goroutines for passing values and syncronisation
+- there has been reports of code in production with over 500,000 go-routines active
+
+* Concurrency is not Parallelism
+
+- In 2012 Rob Pike gave a talk at the Heroku Waza event.
+.link http://talks.golang.org/2012/waza.slide#1 Waza
+- Lots of early adopters of Go thought using the concurrency primitives in Go would net them immediate gains
+- Whilst go code written with concurrency in mind may improve parallelism it is not a silver bullet.
+- Once this idea was slowly understood Golang adoption increased.
+
+* Tooling
+
+- pprof can show the call tree of the program
+.link http://blog.golang.org/profiling-go-programs Profiling
+
+- go race detector can check for data races between goroutines
+This is very helpful in some of the larger projects where syncronisation is very important
+
+* Some popular tools written in Go
+
+- Martini : A popular http router built on top of net/http
+.link http://github.com/codegangsta/martini Martini
+- Mgo : A feature complete MongoDB library
+.link http://labix.org/mgo Mgo
+- Groupcache : Tool for serving "hot" content similar to memcache (powers dl.google.com)
+.link http://github.com/golang/groupcache GroupCache
+- Vitess : Set of tools to help scale MySQL at Youtube
+.link http://github.com/youtube/vitess Vitess
+
+* Best places to learn more
+
+.link http://gobyexample.org Go By Example
+
+.link http://tour.golang.org Tour Golang
+
+.link http://godoc.org
+
+Standard Libraries are very well documented
