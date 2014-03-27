@@ -12,7 +12,7 @@ During the past couple of years the Go programming language has gained popularit
 
 Designed by programmers of Unix and Plan9 fame.
 
-Currently at 1.2 with 1.3 due in a couple of months.
+Currently at 1.2 with 1.3 due in June.
 
 .image gopher.png
 
@@ -40,6 +40,7 @@ Image Credit : Renee French
 - Garbage collection isn't very mature although this is coming in 1.3.
 - Different way of handling inheritance requires a bit of thinking about (interfaces)
 - Relative infancy means some third party tools are not as mature
+- Module system still not perfect
 
 * What about the code?
 
@@ -99,6 +100,21 @@ Image Credit : Renee French
 - channels allow communication between goroutines for passing values and syncronisation
 - there has been reports of code in production with over 500,000 go-routines active
 
+* Goroutines
+
+- Goroutines can be spawned anywhere
+- Very cheap as they are managed by the runtime and not the OS
+- 2 main types
+
+.code goro.go
+
+* Channels
+
+- Channels have a type and can be specified one way if desired
+- Listening on a channel blocks the thread/goroutine
+
+.code channels.go
+
 * Concurrency is not Parallelism
 
 - In 2012 Rob Pike gave a talk at the Heroku Waza event.
@@ -135,3 +151,13 @@ This is very helpful in some of the larger projects where syncronisation is very
 .link http://godoc.org
 
 Standard Libraries are very well documented
+
+* Into the future
+
+- Precise GC
+- Change way go-routine stacks work
+- Channel rewrite
+- "watch file changes" to speed up compilation further
+- support of linking againsr ObjC
+- simplify linker
+- translate compiler into Go
